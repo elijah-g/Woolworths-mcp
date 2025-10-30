@@ -1,0 +1,30 @@
+{
+  "name": "woolworths-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for Woolworths Australia with session cookie management",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "woolworths",
+    "grocery",
+    "shopping"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "puppeteer": "^23.0.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}
+

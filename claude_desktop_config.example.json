@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "woolworths": {
+      "command": "node",
+      "args": ["C:\\Users\\eglass\\Projects\\Woolworths\\dist\\index.js"]
+    }
+  }
+}
+
