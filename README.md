@@ -2,6 +2,10 @@
 
 A Model Context Protocol (MCP) server for interacting with Woolworths Australia's online shopping platform. This server provides tools for browsing products, searching items, viewing specials, and more.
 
+<a href="https://glama.ai/mcp/servers/@elijah-g/Woolworths-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@elijah-g/Woolworths-mcp/badge" alt="Woolworths Server MCP server" />
+</a>
+
 ## Features
 
 - **Browser Automation**: Uses Puppeteer to open a browser, navigate to Woolworths, and capture session cookies
@@ -274,4 +278,3 @@ MIT
 ## Disclaimer
 
 This is an unofficial tool and is not affiliated with or endorsed by Woolworths Group Limited. Use at your own risk and ensure compliance with Woolworths' Terms of Service.
-
