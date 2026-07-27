@@ -293,7 +293,40 @@ async function handleNavigate(args: any): Promise<any> {
     throw new Error("Browser is not open. Use woolworths_open_browser first.");
   }
 
-  await currentPage.goto(args.url, { waitUntil: "networkidle2" });
+  // `args.url` is chosen by the model, which may be acting on text it read from a product
+  // listing, a search result or a recipe page. This tab holds a live authenticated Woolworths
+  // session, so navigating it off-site can hand those cookies to an arbitrary origin. Every
+  // other tool in this server is Woolworths-only, so there is no legitimate off-domain
+  // navigation to preserve.
+  let target: URL;
+  try {
+    target = new URL(String(args.url));
+  } catch {
+    throw new Error("Navigation blocked: url is not a valid absolute URL");
+  }
+  if (target.protocol !== "https:") {
+    throw new Error(
+      `Navigation blocked: only https is allowed (got "${target.protocol}")`
+    );
+  }
+  // Compare against the parsed hostname, never the raw string: a substring test would accept
+  // https://woolworths.com.au.evil.com/ and userinfo like https://woolworths.com.au@evil.com/.
+  // A single trailing dot is the legal absolute-root form of the same host; an empty label
+  // anywhere (".woolworths.com.au", "a..b") is not, and must not pass the suffix test.
+  const host = target.hostname.replace(/\.$/, "").toLowerCase();
+  const labelsValid = host.split(".").every((label) => label.length > 0);
+  const allowed =
+    labelsValid &&
+    (host === "woolworths.com.au" || host.endsWith(".woolworths.com.au"));
+  if (!allowed) {
+    throw new Error(
+      `Navigation blocked: "${host}" is not a woolworths.com.au host`
+    );
+  }
+
+  // Navigate the URL that was actually validated, rather than re-reading the raw input --
+  // Node's URL parser and Chromium's are not guaranteed to agree on an unusual string.
+  await currentPage.goto(target.href, { waitUntil: "networkidle2" });
 
   return {
     success: true,
