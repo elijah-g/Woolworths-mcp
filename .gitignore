@@ -29,3 +29,6 @@ Thumbs.db
 # Puppeteer
 .local-chromium/
 
+# Discovery cache
+.cache/
+
